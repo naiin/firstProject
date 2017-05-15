@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle *ngIf="!selectedItem">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Item Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div text-center *ngIf="selectedItem">
+    <h2>{{selectedItem.title}}</h2>
+    <h3 *ngIf="selectedItem.title=='Essen'">English: Eat</h3>
+    <h3 *ngIf="selectedItem.title=='Essen'">Urdu: کھانا</h3>
+  </div>
+  <h4 text-center *ngIf="selectedItem">
+    You navigated here from <b>{{selectedItem.title}}</b>
+  </h4>
+</ion-content>
