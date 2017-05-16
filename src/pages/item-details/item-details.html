@@ -9,11 +9,39 @@
 
 <ion-content>
   <div text-center *ngIf="selectedItem">
-    <h2>{{selectedItem.title}}</h2>
-    <h3 *ngIf="selectedItem.title=='Essen'">English: Eat</h3>
-    <h3 *ngIf="selectedItem.title=='Essen'">Urdu: کھانا</h3>
+    <h2>{{selectedItem.name}}</h2>
+    <h3 >English: {{selectedItem.eng_name}}</h3>
+    <h3>Urdu: {{selectedItem.urdu_name}}</h3>
   </div>
   <h4 text-center *ngIf="selectedItem">
-    You navigated here from <b>{{selectedItem.title}}</b>
+    You navigated here from <b>{{selectedItem.name}}</b>
   </h4>
+
+
+  <ion-list>
+
+    <form #form="ngForm" (ngSubmit)="logForm(form)" name="myForm" novalidate>
+      <ion-item>
+        <ion-label fixed>Name</ion-label>
+        <ion-input  type="text"  [(ngModel)]="verb.name" name="name" value="{{verb.name}}" ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>English</ion-label>
+        <ion-input  type="text"   [(ngModel)]="verb.eng_name" name="eng_name"  value="{{verb.eng_name}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Urdu</ion-label>
+        <ion-input type="text"   [(ngModel)]="verb.urdu_name" name="urdu_name"  value="{{verb.urdu_name}}"></ion-input>
+        <ion-input type="hidden" style="visibility: hidden" [(ngModel)]="verb.id" name="id"  value="{{verb.id}}" ></ion-input>
+      </ion-item>
+      <div padding>
+        <button  ion-button color="dark" name="myBtn" type="submit">Submit</button>
+      </div>
+
+
+    </form>
+
+
+  </ion-list>
 </ion-content>

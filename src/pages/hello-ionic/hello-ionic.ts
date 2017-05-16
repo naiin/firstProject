@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { ItemDetailsPage } from '../item-details/item-details';
+import { ExternalApiProvider } from '../../providers/external-api/external-api';
+
 var newlist = [
   "abfahren",
   "abfliegen",
@@ -231,16 +232,33 @@ var newlist = [
 ];
 @Component({
   selector: 'page-hello-ionic',
-  templateUrl: 'hello-ionic.html'
+  templateUrl: 'hello-ionic.html',
+  providers: [ExternalApiProvider]
 })
 
 export class HelloIonicPage {
 
   items: Array<{title: string}>;
+  public verbs: any;
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public db:ExternalApiProvider
+  ){
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private sqlitePorter: SQLitePorter) {
-    //this.initializeItems();
+    this.initializeDb();
 
+    this.initializeItems();
+
+  }
+
+  initializeDb() {
+    this.db.load()
+      .then(data => {
+        console.log(data);
+        this.verbs = data;
+      });
+  }
+  initializeItems() {
     this.items = [];
     for(let i=0; i< newlist.length; i++){
       this.items.push({
@@ -249,10 +267,7 @@ export class HelloIonicPage {
     }
   }
 
-  initializeItems() {
 
-
-  }
 
   getItems(ev) {
     // Reset items back to all of the items
@@ -260,12 +275,6 @@ export class HelloIonicPage {
 
     // set val to the value of the ev target
     var val = ev.target.value;
-    this.items = [];
-    for(let i=0; i< newlist.length; i++){
-      this.items.push({
-        title : newlist[i],
-      });
-    }
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.items = this.items.filter((item) => {
